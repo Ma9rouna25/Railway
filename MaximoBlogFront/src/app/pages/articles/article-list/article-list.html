@@ -8,7 +8,7 @@
     </div>
     <div class="flex gap-4 items-center">
       <button (click)="onSearch()" class="btn-secondary whitespace-nowrap">Search</button>
-      <a *ngIf="authService.isAuthenticated()" routerLink="/articles/new" class="btn-primary whitespace-nowrap">+ New Article</a>
+      <a *ngIf="authService.isAdmin()" routerLink="/articles/new" class="btn-primary whitespace-nowrap">+ New Article</a>
     </div>
   </div>
 

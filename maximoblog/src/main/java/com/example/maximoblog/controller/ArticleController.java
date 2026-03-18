@@ -5,6 +5,7 @@ import com.example.maximoblog.service.ArticleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ public class ArticleController {
 
     private final ArticleService articleService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<?> create(
             @Valid @RequestBody ArticleRequest request,
@@ -36,6 +38,7 @@ public class ArticleController {
         return articleService.getById(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<?> update(
             @PathVariable("id") Long id,
@@ -44,6 +47,7 @@ public class ArticleController {
         return articleService.update(id, request, authentication.getName());
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(
             @PathVariable("id") Long id,

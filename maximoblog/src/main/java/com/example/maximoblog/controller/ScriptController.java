@@ -5,6 +5,7 @@ import com.example.maximoblog.service.ScriptService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ public class ScriptController {
 
     private final ScriptService scriptService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<?> create(
             @Valid @RequestBody ScriptRequest request,
@@ -43,6 +45,7 @@ public class ScriptController {
         return scriptService.getById(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<?> update(
             @PathVariable("id") Long id,
@@ -51,6 +54,7 @@ public class ScriptController {
         return scriptService.update(id, request, authentication.getName());
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(
             @PathVariable("id") Long id,

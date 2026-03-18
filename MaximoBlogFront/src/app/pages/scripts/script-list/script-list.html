@@ -17,7 +17,7 @@
     </div>
 
     <div class="flex gap-4 items-center">
-      <a *ngIf="authService.isAuthenticated()" routerLink="/scripts/new" class="btn-primary whitespace-nowrap border-maximo-purple shadow-neon-purple hover:shadow-[0_0_20px_rgba(138,43,226,0.8)]">+ Upload Script</a>
+      <a *ngIf="authService.isAdmin()" routerLink="/scripts/new" class="btn-primary whitespace-nowrap border-maximo-purple shadow-neon-purple hover:shadow-[0_0_20px_rgba(138,43,226,0.8)]">+ Upload Script</a>
     </div>
   </div>
 

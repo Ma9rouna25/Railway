@@ -5,11 +5,12 @@ import { ArticleService } from '../../../core/services/article.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { CommentSection } from '../../../shared/components/comment-section/comment-section';
 import { BookmarkButton } from '../../../shared/components/bookmark-button/bookmark-button';
+import { MarkdownComponent } from 'ngx-markdown';
 
 @Component({
   selector: 'app-article-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, CommentSection, BookmarkButton],
+  imports: [CommonModule, RouterLink, CommentSection, BookmarkButton, MarkdownComponent],
   templateUrl: './article-detail.html'
 })
 export class ArticleDetail implements OnInit {
@@ -59,7 +60,6 @@ export class ArticleDetail implements OnInit {
   }
 
   isAuthor(): boolean {
-    if (!this.authService.isAuthenticated() || !this.article) return false;
-    return this.authService.getCurrentUser().email === this.article.authorEmail;
+    return this.authService.isAdmin();
   }
 }

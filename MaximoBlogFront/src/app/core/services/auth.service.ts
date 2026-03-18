@@ -21,6 +21,7 @@ export class AuthService {
           localStorage.setItem('maximo_token', res.token);
           if (res.name) localStorage.setItem('maximo_user_name', res.name);
           if (res.email) localStorage.setItem('maximo_user_email', res.email);
+          if (res.role) localStorage.setItem('maximo_user_role', res.role);
         }
       })
     );
@@ -42,16 +43,22 @@ export class AuthService {
     localStorage.removeItem('maximo_token');
     localStorage.removeItem('maximo_user_name');
     localStorage.removeItem('maximo_user_email');
+    localStorage.removeItem('maximo_user_role');
   }
 
   isAuthenticated(): boolean {
     return !!localStorage.getItem('maximo_token');
   }
 
+  isAdmin(): boolean {
+    return localStorage.getItem('maximo_user_role') === 'ADMIN';
+  }
+
   getCurrentUser() {
     return {
       name: localStorage.getItem('maximo_user_name'),
-      email: localStorage.getItem('maximo_user_email')
+      email: localStorage.getItem('maximo_user_email'),
+      role: localStorage.getItem('maximo_user_role')
     };
   }
 }

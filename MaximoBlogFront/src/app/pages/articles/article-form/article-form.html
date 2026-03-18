@@ -19,6 +19,17 @@
     <form *ngIf="!loadingData" (ngSubmit)="onSubmit()" #articleForm="ngForm" class="space-y-6">
       
       <div>
+        <label class="block text-sm font-medium text-gray-300 mb-2">Banner Image</label>
+        <div class="flex items-center gap-4">
+          <label class="btn-secondary cursor-pointer border-dashed border-maximo-purple text-maximo-purple hover:bg-maximo-purple/10 hover:shadow-neon-purple hover:border-maximo-purple">
+            <input type="file" accept="image/*" class="hidden" (change)="onBannerUpload($event)">
+            <span>Upload Cover...</span>
+          </label>
+          <img *ngIf="bannerImageUrl" [src]="bannerImageUrl" alt="Banner Preview" class="h-12 w-auto object-cover rounded shadow-md border border-white/20">
+        </div>
+      </div>
+
+      <div>
         <label class="block text-sm font-medium text-gray-300 mb-2">Title</label>
         <input type="text" name="title" [(ngModel)]="title" required minlength="3" maxlength="255" class="input-field text-lg font-bold" placeholder="Give your article a catchy name...">
       </div>
@@ -29,9 +40,17 @@
       </div>
 
       <div>
-        <label class="block text-sm font-medium text-gray-300 mb-2">Content</label>
-        <p class="text-xs text-gray-500 mb-2">Markdown is visually supported. Use plain text formatting.</p>
-        <textarea name="content" [(ngModel)]="content" required rows="15" class="input-field font-mono text-sm resize-y leading-relaxed" placeholder="Write your futuristic insights here..."></textarea>
+        <div class="flex justify-between items-end mb-2">
+          <div>
+            <label class="block text-sm font-medium text-gray-300">Content</label>
+            <p class="text-xs text-gray-500">Markdown is visually supported. Use plain text formatting.</p>
+          </div>
+          <label class="text-xs text-maximo-cyan hover:text-white cursor-pointer underline decoration-maximo-cyan/50 underline-offset-4">
+            <input type="file" accept="image/*" class="hidden" (change)="onContentImageUpload($event, contentTextArea)">
+            + Insert Image
+          </label>
+        </div>
+        <textarea #contentTextArea name="content" [(ngModel)]="content" required rows="15" class="input-field font-mono text-sm resize-y leading-relaxed" placeholder="Write your futuristic insights here..."></textarea>
       </div>
 
       <div class="pt-6 border-t border-white/10 flex justify-end gap-4">

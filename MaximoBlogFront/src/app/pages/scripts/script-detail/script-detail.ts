@@ -55,8 +55,7 @@ export class ScriptDetail implements OnInit {
   }
 
   isAuthor(): boolean {
-    if (!this.authService.isAuthenticated() || !this.scriptData) return false;
-    return this.authService.getCurrentUser().name === this.scriptData.authorName;
+    return this.authService.isAdmin();
   }
 
   copyCode() {

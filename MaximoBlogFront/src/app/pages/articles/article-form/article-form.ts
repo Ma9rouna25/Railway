@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArticleService } from '../../../core/services/article.service';
+import { FileService } from '../../../core/services/file.service';
 
 @Component({
   selector: 'app-article-form',
@@ -17,6 +18,7 @@ export class ArticleForm implements OnInit {
   title = '';
   content = '';
   category = '';
+  bannerImageUrl = '';
   
   error = '';
   loading = false;
@@ -24,6 +26,7 @@ export class ArticleForm implements OnInit {
 
   constructor(
     private articleService: ArticleService,
+    private fileService: FileService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -46,6 +49,7 @@ export class ArticleForm implements OnInit {
         this.title = article.title;
         this.content = article.content;
         this.category = article.category;
+        this.bannerImageUrl = article.bannerImageUrl;
         this.loadingData = false;
       },
       error: (err: any) => {
@@ -62,7 +66,8 @@ export class ArticleForm implements OnInit {
     const payload = {
       title: this.title,
       content: this.content,
-      category: this.category
+      category: this.category,
+      bannerImageUrl: this.bannerImageUrl
     };
 
     if (this.isEditMode && this.articleId) {
@@ -84,6 +89,43 @@ export class ArticleForm implements OnInit {
         this.error = err.error?.message || err.error?.error || 'Failed to save the article. Please check your inputs.';
       }
     };
+  }
+
+  onBannerUpload(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.fileService.uploadFile(file).subscribe({
+        next: (res) => {
+          this.bannerImageUrl = res.url;
+        },
+        error: (err) => {
+          this.error = 'Failed to upload banner image.';
+        }
+      });
+    }
+  }
+
+  onContentImageUpload(event: any, textArea: HTMLTextAreaElement) {
+    const file = event.target.files[0];
+    if (file) {
+      this.fileService.uploadFile(file).subscribe({
+        next: (res) => {
+          const imageUrl = res.url;
+          const markdownImage = `\n![image](${imageUrl})\n`;
+          
+          // Insert at cursor
+          const startPos = textArea.selectionStart;
+          const endPos = textArea.selectionEnd;
+          this.content = this.content.substring(0, startPos) + markdownImage + this.content.substring(endPos);
+          
+          // Reset file input
+          event.target.value = '';
+        },
+        error: (err) => {
+          this.error = 'Failed to upload content image.';
+        }
+      });
+    }
   }
 
   cancel() {

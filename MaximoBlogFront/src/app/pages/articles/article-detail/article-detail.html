@@ -9,6 +9,9 @@
   </div>
 
   <article *ngIf="!loading && article" class="glass-panel p-8 md:p-12 relative overflow-hidden">
+    <!-- Hero Banner Image -->
+    <div *ngIf="article.bannerImageUrl" class="h-64 md:h-96 w-[calc(100%+4rem)] md:w-[calc(100%+6rem)] -mt-8 -mx-8 md:-mt-12 md:-mx-12 mb-10 bg-cover bg-center bg-no-repeat border-b border-white/10" [style.background-image]="'url(' + article.bannerImageUrl + ')'"></div>
+
     <!-- Subtle Glow Background -->
     <div class="absolute top-0 right-0 w-64 h-64 bg-maximo-cyan/10 blur-[100px] rounded-full pointer-events-none"></div>
 
@@ -45,8 +48,8 @@
       </div>
     </header>
 
-    <div class="prose prose-invert max-w-none text-gray-300 relative z-10 leading-relaxed text-lg pb-10 border-b border-white/10 mb-10 whitespace-pre-line">
-      {{ article.content }}
+    <div class="prose prose-invert prose-cyan max-w-none relative z-10 leading-relaxed text-lg pb-10 border-b border-white/10 mb-10">
+      <markdown [data]="article.content"></markdown>
     </div>
 
     <!-- Bookmark Button -->

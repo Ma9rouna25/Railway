@@ -4,8 +4,11 @@ const app = express();
 
 const PORT = process.env.PORT || 8080;
 
-// Serve the pre-built Angular files
-const DIST_FOLDER = path.join(__dirname, '../MaximoBlogFront/dist/MaximoBlogFront');
+// ✅ FIXED PATH (add /browser)
+const DIST_FOLDER = path.join(__dirname, '../MaximoBlogFront/dist/MaximoBlogFront/browser');
+
+console.log("Serving from:", DIST_FOLDER);
+
 app.use(express.static(DIST_FOLDER));
 
 app.get('*', (req, res) => {
